@@ -33,6 +33,7 @@ app.use((err, req, res, next) => {
 });
 
 io.on("connection", (socket) => {
+
     console.log("Yeni bağlantı:", socket.id);
 });
 
@@ -42,3 +43,5 @@ const PORT = config.server.port;
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+exports.io = { io }
