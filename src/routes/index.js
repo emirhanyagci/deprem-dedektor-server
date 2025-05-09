@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const io = require("../index").io
+
 router.get('/', (req, res) => {
   console.log("api calisiyor kardesim");
 
@@ -8,7 +8,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/earthquake', (req, res) => {
-  io.emit("earthquake", "Deprem buyuklugu 5.6")
+  require("../index.js").io.emit("earthquake", "Deprem buyuklugu 5.6");
+  res.json({ message: "Emited" })
 });
 
 module.exports = router;
