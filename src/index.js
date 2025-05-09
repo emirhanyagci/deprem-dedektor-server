@@ -6,12 +6,11 @@ const { createServer } = require("http")
 const { Server } = require('socket.io');
 
 const app = express();
-const httpServer = createServer(app);
+const server = createServer(app);
 
-const io = new Server(httpServer, {
+const io = new Server(server, {
     cors: {
-        origin: "*", // Be more restrictive in production
-        methods: ["GET", "POST"]
+        origin: "*",
     }
 });
 
@@ -33,22 +32,13 @@ app.use((err, req, res, next) => {
     });
 });
 
-io.on('connection', (socket) => {
-    console.log('A user connected');
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
-
-    // Example: Handle earthquake updates
-    socket.on('earthquake-update', (data) => {
-        // Broadcast to all connected clients
-        io.emit('new-earthquake', data);
-    });
+io.on("connection", (socket) => {
+    console.log("Yeni bağlantı:", socket.id);
 });
+
 
 const PORT = config.server.port;
 
-httpServer.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
